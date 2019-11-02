@@ -993,7 +993,7 @@ function particlesInit() {
                     "type": "circle",
                     "stroke": {
                         "width": 0,
-                        "color": "#FF003C"
+                        "color": "#F5D76E"
                     },
                     "polygon": {
                         "nb_sides": 5
@@ -1027,7 +1027,7 @@ function particlesInit() {
                 "line_linked": {
                     "enable": true,
                     "distance": 170,
-                    "color": "#FF003C",
+                    "color": "#F5D76E",
                     "opacity": 0.3,
                     "width": 1.2
                 },
