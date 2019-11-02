@@ -987,7 +987,7 @@ function particlesInit() {
                     }
                 },
                 "color": {
-                    "value": "#FF003C"
+                    "value": "#F5D76E"
                 },
                 "shape": {
                     "type": "circle",
