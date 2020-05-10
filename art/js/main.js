@@ -1,217 +1,268 @@
-/*==============================================================================
+/* -----------------------------------------------
+					Js Main
+--------------------------------------------------
 
- * Template Name: Zuman - Creative Personal Portfolio
- * Template URI: 
- * Author: ixtheme - (https://themeforest.net/user/ixtheme)
- * Description: Personal Portfolio Template
- * Version: 1.0
- * Copyright 2018 ixtheme
+    Template Name: Baha - Personal Portfolio Template
+    Author: Malyarchuk
+    Copyright: 2019
 
-==============================================================================
-    
-    [Table of jQuery contents]
-    ===================
+--------------------------------------------------
+
+Table of Content
+
+	1. Preloader
+	2. Sound Start
+	3. Isotope Portfolio Setup
+	4. Blogs Masonry Setup
+	5. Active Current Link
+	6. Mobile Toggle Click Setup
+	7. Testimonials OwlCarousel
+	8. Chart Setup
+	9. Portfolio Tilt Setup
+	10. Portfolio Image Link
+	11. Portfolio Video Link
+	12. Blog Video Link
+	13. Validate Contact Form
+	14. Google Map
+
+----------------------------------- */
+
+$(window).on('load', function() {
+		
+	/* -----------------------------------
+				1. Preloader
+	----------------------------------- */
+	$("#preloader").delay(1000).addClass('loaded');
 	
-    01. PreLoader Init
-    02. ProjectFilter Init
-    03. HeaderFixed Init
-    04. CounterUp Init
-    05. ResponsiveMenu Init
-    06. NavActiveClass Init
-        -- Smooth-Scroll Init
-    07. AboutImg init
-    08. ProjectDetails Init
-    09. TestimonialCarousel Init
-    10. BackgroundImage Init
+	/* -----------------------------------
+			  2. Sound Setup
+	----------------------------------- */
+	$('body').append('<audio loop autoplay volume="1" id="audio-player"><source src="music.mp3" type="audio/mpeg"></audio>');
+    	var audio = document.getElementById("audio-player");
+    	audio.volume = 0.2;
+	
+	if($(window).length) {
+		$('.music-bg').css({'visibility':'visible'});
+		$('body').addClass("audio-on");
+		if ($('body').hasClass('audio-off')) {
+        	$('body').removeClass('audio-on');
+		} 
+		$(".music-bg").on('click', function() {
+			$('body').toggleClass("audio-on audio-off");         
+			if ($('body').hasClass('audio-off')) {
+				audio.pause();
+			} 
+			if ($('body').hasClass('audio-on')) {
+				audio.play();
+			}
+		});
+	}
+	
+	/* -----------------------------------
+			3. Isotope Portfolio Setup
+	----------------------------------- */
+    if( $('.portfolio-items').length ) {
+        var $elements = $(".portfolio-items"),
+            $filters = $('.portfolio-filter ul li');
+        $elements.isotope();
 
-==============================================================================*/
+        $filters.on('click', function(){
+            $filters.removeClass('active');
+            $(this).addClass('active');
+            var selector = $(this).data('filter');
+            $(".portfolio-items").isotope({
+                filter: selector,
+                hiddenStyle: {
+                    transform: 'scale(.2) skew(30deg)',
+                    opacity: 0
+                },
+                visibleStyle: {
+                    transform: 'scale(1) skew(0deg)',
+                    opacity: 1,
+                },
+                transitionDuration: '.5s'
+            });
+        });
+    }
+	
+	/* -----------------------------------
+			4. Blogs Masonry Setup
+	----------------------------------- */
+    $('.blog-masonry').isotope({ layoutMode: 'moduloColumns' });
+	
+});
 
-
-(function ($) {
+$(document).ready(function() {
     "use strict";
-
-    $(window).on('load', function () {
-
-        /* 01. PreLoader Init
-        ============================ */
-        function preLoader() {
-            setTimeout(function () {
-                $('#preloader .scroll-static').addClass('loaded');
-                setTimeout(function () {
-                    $('#preloader').addClass('loaded');
-                    setTimeout(function () {
-                        $('#preloader').remove();
-                    }, 400);
-                    
-                    /* Splitting js init
-                    ============================ */
-                    Splitting();
-
-                }, 600);
-            }, 1000);
-        };
-        preLoader();
-
-        /* 02. ProjectFilter Init
-        ============================ */
-		function projectFilter() {
-			var $gridt = $('.works');
-			$gridt.isotope();
-			$('.filter-buttons').on('click', 'button', function () {
-				var filterValue = $(this).attr('data-filter');
-				$gridt.isotope({
-					filter: filterValue
-				});
-				$(this).addClass('active').siblings().removeClass('active');
-			});
-		};
-		projectFilter();
-
-
+	
+	/* -----------------------------------
+			5. Active Current Link
+	----------------------------------- */
+    $('.header-main ul li a').on('click',function() {
+        if($('.header-main.on').length) {
+            $('.header-main').removeClass('on');
+        }
     });
-
-
-    $(window).on('scroll', function () {
-
-        /* 03. HeaderFixed Init
-        ============================ */
-        function headerFixed() {
-            if ($(window).scrollTop() >= 1) {
-                $('header').addClass('header_fixed');
-            } else {
-                $('header').removeClass('header_fixed');
-            }
-        };
-        headerFixed();
-
+	
+	/* -----------------------------------
+		6. Mobile Toggle Click Setup
+	----------------------------------- */
+    $('.header-toggle').on('click', function() {
+        $('.header-main').toggleClass('on');
     });
+	
+	/* -----------------------------------
+	      7. Testimonials OwlCarousel
+	----------------------------------- */
+	$(".testimonial .owl-carousel").owlCarousel({
+        loop: true,
+        margin: 30,
+        autoplay: true,
+        smartSpeed: 500,
+        responsiveClass: true,
+        dots: false,
+        autoplayHoverPause: true,
+        responsive: {
+            0: {
+                items: 1,
+            },
+            800: {
+                items: 1,
+            },
+            1000: {
+                items: 2,
+            },
+        },
+    });
+	
+	/* -----------------------------------
+	      	8. Chart Setup
+	----------------------------------- */
+	if ($('.chart').length > 0) {
+	    $('.chart').easyPieChart({
+          trackColor:'#0e0f10',
+	      scaleColor:false,
+	      easing: 'easeOutBounce',
+	      scaleLength: 4,
+	      lineCap: 'square',
+	      lineWidth:5,
+	      size:130,
+	      animate: {
+	                duration: 2500,
+	                enabled: true
+	    	}
+	 	});
+	 }
+	
+	/* -----------------------------------
+	      	9. Portfolio Tilt Setup
+	----------------------------------- */
+    $('.pt-portfolio .portfolio-items .item figure').tilt({
+        maxTilt: 3,
+        glare: true,
+        maxGlare: .6,
+        reverse: true
+    });
+	
+	/* -----------------------------------
+	      10. Portfolio Image Link
+	----------------------------------- */
+	$(".portfolio-items .image-link").magnificPopup({
+		type: "image"
+	});
+	
+	/* -----------------------------------
+	      11. Portfolio Video Link
+	----------------------------------- */
+	$(".portfolio-items .video-link").magnificPopup({
+		type: "iframe"
+	});
+	
+	/* -----------------------------------
+	      12. Blog Video Link
+	----------------------------------- */
+	$(".pt-blog .blog-item .thumbnail .btn-play").magnificPopup({
+		type: "iframe"
+	});
+	
+	/* -----------------------------------
+	    13. Validate Contact Form
+	----------------------------------- */
+	if ($("#contact-form").length) {
+        $("#contact-form").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2
+                },
 
+                email: "required",
+				
+            },
 
-    $(document).ready(function () {
+            messages: {
+                name: "Please enter your name",
+                email: "Please enter your email address"
+            },
 
-        /* 04. CounterUp Init
-        ============================ */
-        function countUp() {
-            $('.counter-number').counterUp({
-                delay: 10,
-                time: 1000
-            });
-        };
-        countUp();
-
-        /* 05. ResponsiveMenu Init
-        ============================ */
-        function responsiveMenu() {
-            $('.nav-btn').on('click', function () {
-                $('header').toggleClass('header_bg');
-                $('.nav-btn span').toggleClass('ion-android-close ion-android-menu');
-                $('.menu_items').toggleClass('show');
-                $('body').toggleClass('no-scroll');
-            });
-            $('.menu_item').on('click', function () {
-                $('header').removeClass('header_bg');
-                if($('.nav-btn span').hasClass('ion-android-close')) {
-                    $('.nav-btn span').toggleClass('ion-android-menu ion-android-close');
-                };
-                $('.menu_items').removeClass('show');
-                $('body').removeClass('no-scroll');
-            });
-        };
-        responsiveMenu();
-
-        /* 06. NavActiveClass Init
-        ============================ */
-        function navActiveClass() {
-
-            $('body').scrollspy({ 
-                target: '#menu_items',
-                offset: 50,
-            });
-
-            // Smooth-Scroll Init
-            $('a.menu_item, a.go_top').on("click", function() {
-                if (location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && location.hostname === this.hostname) {
-                    var target = $(this.hash);
-                    target = target.length ? target : $("[name=" + this.hash.slice(1) + "]");
-                    if (target.length) {
-                        $("html, body").animate({
-                            scrollTop: target.offset().top
-                        }, 1000, "easeInOutExpo");
-                        return false;
-                    }
-                }
-                return false;
-            });
-        
-        };
-        navActiveClass();
-
-        /* 07. AboutImg init
-        ============================ */
-        function aboutImg() {
-            $('.about_img_2.bottom').on('click', function () {
-                $(this).addClass('top').removeClass('bottom');
-                $('.about_img_1').addClass('bottom').removeClass('top');
-            });
-            $('.about_img_1').on('click', function () {
-                $(this).addClass('top').removeClass('bottom');
-                $('.about_img_2').addClass('bottom').removeClass('top');
-            });
-        };
-        aboutImg();
-
-        /* 08. ProjectDetails Init
-        ============================ */
-        function projectDetails() {
-            $('.ajax-popup-link').magnificPopup({
-                settings: null,
-                type: 'ajax',
-                closeOnContentClick: false,
-                closeBtnInside:false,
-                callbacks:{
-                    ajaxContentAdded: function() {
-                      $(".mfp-content").find("*").addClass("mfp-prevent-close");
+            submitHandler: function (form) {
+                $.ajax({
+                    type: "POST",
+                    url: "/mail.php",
+                    data: $(form).serialize(),
+                    success: function () {
+                        $( "#loader").hide();
+                        $( "#success").slideDown( "slow" );
+                        setTimeout(function() {
+                        $( "#success").slideUp( "slow" );
+                        }, 3000);
+                        form.reset();
                     },
-                    open: function() {
-                        $('html').addClass('layout-fixed');
-                    },
-                    close: function() {
-                        $('html').removeClass('layout-fixed');
+                    error: function() {
+                        $( "#loader").hide();
+                        $( "#error").slideDown( "slow" );
+                        setTimeout(function() {
+                        $( "#error").slideUp( "slow" );
+                        }, 3000);
                     }
-                 }
-            });
-        };
-        projectDetails();
-
-        /* 09. TestimonialCarousel Init
-        ============================ */
-        function testimonialCarousel() {
-            $('.owl-carousel.testimonial_slider').owlCarousel({
-                loop:true,
-                items:1,
-                margin:0,
-                autoplay:true,
-                nav:false,
-                dots:true,
-                autoplayTimeout:5000,
-                autoplayHoverPause:true,
-            });
-        };
-        testimonialCarousel();
-
-        /* 10. BackgroundImage Init
-        ============================ */
-        function bgImage() {
-            $('.bg-img').each(function () {
-                var src = $(this).attr('data-src');
-                $(this).css({
-                    'background-image': 'url(' + src + ')'
                 });
-            });
-        };
-        bgImage();
+                return false;
+            }
 
+        });
+    }
+	
+	/* Google Map Setup */
+    if($('#map').length) {
+        initMap();
+     };
+
+});
+
+/* -----------------------------------
+  		14. Google Map
+----------------------------------- */
+function initMap() {
+    var latitude = $("#map").data('latitude'),
+        longitude = $("#map").data('longitude'),
+        zoom = $("#map").data('zoom'),
+        cordinates = new google.maps.LatLng(latitude, longitude);
+
+    var styles = [{"stylers":[{"saturation":-100},{"gamma":0.8},{"lightness":4},{"visibility":"on"}]},{"featureType":"landscape.natural","stylers":[{"visibility":"on"},{"color":"#5dff00"},{"gamma":4.97},{"lightness":-5},{"saturation":100}]}];
+	
+        var mapOptions = {
+        zoom: zoom,
+        center: cordinates,
+        mapTypeControl: false,
+        disableDefaultUI: true,
+        zoomControl: true,
+        scrollwheel: false,
+        styles: styles
+    };
+    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    var marker = new google.maps.Marker({
+        position: cordinates,
+        map: map,
+        title: "We are here!"
     });
-
-
-})(jQuery);
+}
